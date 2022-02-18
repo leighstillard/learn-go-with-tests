@@ -128,20 +128,18 @@ focus on testing something that creates them.
 So my first test looks like this:
 
 ```go
-package clockface_test
+package clockface
 
 import (
 	"testing"
 	"time"
-
-	"github.com/gypsydave5/learn-go-with-tests/math/v1/clockface"
 )
 
 func TestSecondHandAtMidnight(t *testing.T) {
 	tm := time.Date(1337, time.January, 1, 0, 0, 0, 0, time.UTC)
 
-	want := clockface.Point{X: 150, Y: 150 - 90}
-	got := clockface.SecondHand(tm)
+	want := Point{X: 150, Y: 150 - 90}
+	got := SecondHand(tm)
 
 	if got != want {
 		t.Errorf("Got %v, wanted %v", got, want)
@@ -160,8 +158,8 @@ This drives out the expected failures around the missing functions and types:
 
 ```
 --- FAIL: TestSecondHandAtMidnight (0.00s)
-./clockface_test.go:13:10: undefined: clockface.Point
-./clockface_test.go:14:9: undefined: clockface.SecondHand
+./clockface_test.go:13:10: undefined: Point
+./clockface_test.go:14:9: undefined: SecondHand
 ```
 
 So a `Point` where the tip of the second hand should go, and a function to get it.
@@ -195,7 +193,6 @@ and now we get:
     clockface_test.go:17: Got {0 0}, wanted {150 60}
 FAIL
 exit status 1
-FAIL	github.com/gypsydave5/learn-go-with-tests/math/v1/clockface	0.006s
 ```
 
 ### Write enough code to make it pass
@@ -232,8 +229,8 @@ a clock that shows midnight for every time...
 func TestSecondHandAt30Seconds(t *testing.T) {
 	tm := time.Date(1337, time.January, 1, 0, 0, 30, 0, time.UTC)
 
-	want := clockface.Point{X: 150, Y: 150 + 90}
-	got := clockface.SecondHand(tm)
+	want := Point{X: 150, Y: 150 + 90}
+	got := SecondHand(tm)
 
 	if got != want {
 		t.Errorf("Got %v, wanted %v", got, want)
@@ -759,8 +756,8 @@ that acceptance test passing! Let's remind ourselves of what it looks like:
 func TestSecondHandAt30Seconds(t *testing.T) {
 	tm := time.Date(1337, time.January, 1, 0, 0, 30, 0, time.UTC)
 
-	want := clockface.Point{X: 150, Y: 150 + 90}
-	got := clockface.SecondHand(tm)
+	want := Point{X: 150, Y: 150 + 90}
+	got := SecondHand(tm)
 
 	if got != want {
 		t.Errorf("Got %v, wanted %v", got, want)
@@ -864,7 +861,7 @@ import (
 
 func main() {
 	t := time.Now()
-	sh := clockface.SecondHand(t)
+	sh := SecondHand(t)
 	io.WriteString(os.Stdout, svgStart)
 	io.WriteString(os.Stdout, bezel)
 	io.WriteString(os.Stdout, secondHandTag(sh))
